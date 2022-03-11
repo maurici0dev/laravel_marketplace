@@ -12,6 +12,5 @@
 */
 
 Route::get('/', function () {
-    $hello = "Hello World!";
-    return view('welcome', ['hello' => $hello]);
+    //
 });
