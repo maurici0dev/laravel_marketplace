@@ -5,7 +5,8 @@
 
 <form action="{{ route('admin.stores.update', ['store' => $store->id]) }}" method="post">
 
-    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+    @csrf
+    @method('put')
 
     <div class="form-group mb-3">
         <label for="name">Nome Loja:</label>

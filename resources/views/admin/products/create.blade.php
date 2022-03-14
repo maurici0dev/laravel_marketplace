@@ -1,14 +1,14 @@
 @extends('layouts.app')
 
 @section('content')
-<h1 class="title mb-4">Criação de Loja</h1>
+<h1 class="title mb-4">Criação de Produto</h1>
 
-<form action="{{ route('admin.stores.store') }}" method="post">
+<form action="{{ route('admin.products.store') }}" method="post">
 
     @csrf
 
     <div class="form-group mb-3">
-        <label for="name">Nome Loja:</label>
+        <label for="name">Nome do produto:</label>
         <input type="text" id="name" name="name" class="form-control">
     </div>
 
@@ -18,13 +18,13 @@
     </div>
 
     <div class="form-group mb-3">
-        <label for="phone">Telefone:</label>
-        <input type="text" id="phone" name="phone" class="form-control">
+        <label for="body">Conteúdo:</label>
+        <textarea id="body" name="body" cols="30" rows="10" class="form-control"></textarea>
     </div>
 
     <div class="form-group mb-3">
-        <label for="mobile_phone">Celular:</label>
-        <input type="text" id="mobile_phone" name="mobile_phone" class="form-control">
+        <label for="price">Preço:</label>
+        <input type="text" id="price" name="price" class="form-control">
     </div>
 
     <div class="form-group mb-3">
@@ -33,16 +33,16 @@
     </div>
 
     <div class="form-group mb-3">
-        <label for="users">Usuário:</label>
-        <select id="users" name="user_id" class="form-control">
-            @foreach($users as $user)
-            <option value="{{ $user->id }}">{{ $user->name }}</option>
+        <label for="stores">Lojas:</label>
+        <select id="stores" name="store_id" class="form-control">
+            @foreach($stores as $store)
+            <option value="{{ $store->id }}">{{ $store->name }}</option>
             @endforeach
         </select>
     </div>
 
     <div>
-        <button type="submit" class="btn btn-success">Criar Loja</button>
+        <button type="submit" class="btn btn-success">Criar Produto</button>
     </div>
 
 </form>
