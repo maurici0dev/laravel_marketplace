@@ -12,10 +12,16 @@
 */
 
 Route::get('/', function () {
-    //
+    return view('welcome', ['hello' => 'Bem vindo']);
+})->name('home');
+
+Route::group(['middleware' => ['auth']], function () {
+    Route::prefix('admin')->namespace('Admin')->name('admin.')->group(function () {
+        Route::resource('stores', 'StoreController');
+        Route::resource('products', 'ProductController');
+    });
 });
 
-Route::prefix('admin')->namespace('Admin')->name('admin.')->group(function () {
-    Route::resource('stores', 'StoreController');
-    Route::resource('products', 'ProductController');
-});
+Auth::routes();
+
+// Route::get('/home', 'HomeController@index')->name('home');
