@@ -53,5 +53,6 @@
         @yield('content')
     </div>
 
+    @yield('jsscript')
 </body>
 </html>

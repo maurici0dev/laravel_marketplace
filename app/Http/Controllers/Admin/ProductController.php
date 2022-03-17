@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use \App\Product;
+use App\Http\Requests\ProductRequest;
 
 class ProductController extends Controller
 {
@@ -26,13 +27,15 @@ class ProductController extends Controller
     public function create()
     {
         $stores = \App\Store::all(['id', 'name']);
+
         return view('admin.products.create', compact('stores'));
     }
 
-    public function store(Request $request)
+    public function store(ProductRequest $request)
     {
         $data = $request->all();
-        $store = \App\Store::find($data['store_id']);
+
+        $store = auth()->user()->store;
         $store->products()->create($data);
 
         flash('Produto criado com sucesso!')->success();
@@ -47,16 +50,19 @@ class ProductController extends Controller
     public function edit($product)
     {
         $product = $this->product->find($product);
+
         return view('admin.products.edit', compact('product'));
     }
 
-    public function update(Request $request, $product)
+    public function update(ProductRequest $request, $product)
     {
         $data = $request->all();
+
         $product = $this->product->find($product);
         $product->update($data);
 
         flash('Produto atualizado com sucesso!')->success();
+
         return redirect()->route('admin.products.index');
     }
 
@@ -66,6 +72,7 @@ class ProductController extends Controller
         $product->delete();
 
         flash('Produto removido com sucesso!')->success();
+
         return redirect()->route('admin.products.index');
     }
 }
