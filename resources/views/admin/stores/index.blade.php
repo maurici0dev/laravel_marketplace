@@ -6,8 +6,7 @@
 
 @if(!$store)
 <a href="{{ route('admin.stores.create') }}" class="btn btn-success mb-3">Criar nova</a>
-@endif
-
+@else
 <table class="table table-striped">
     <thead>
         <tr>
@@ -33,4 +32,5 @@
         </tr>
     </tbody>
 </table>
+@endif
 @endsection

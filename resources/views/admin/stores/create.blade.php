@@ -3,7 +3,7 @@
 @section('content')
 <h1 class="title mb-4">Criação de Loja</h1>
 
-<form action="{{ route('admin.stores.store') }}" method="post">
+<form action="{{ route('admin.stores.store') }}" method="post" enctype="multipart/form-data">
 
     @csrf
 
@@ -52,8 +52,14 @@
     </div>
 
     <div class="form-group mb-3">
-        <label for="slug">Slug:</label>
-        <input type="text" id="slug" name="slug" class="form-control">
+        <label class="form-label" for="logo">Logo:</label>
+        <input type="file" id="logo" name="logo" class="form-control @error('logo') is-invalid @enderror">
+
+        @error('logo')
+        <div class="invalid-feedback">
+            {{ $message }}
+        </div>
+        @enderror
     </div>
 
     <div>

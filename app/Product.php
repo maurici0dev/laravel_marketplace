@@ -3,14 +3,26 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Sluggable\HasSlug;
+use Spatie\Sluggable\SlugOptions;
 
 class Product extends Model
 {
+
+    use HasSlug;
+
     protected $table = 'tb_products';
 
     protected $fillable = [
         'name', 'description', 'body', 'price', 'slug',
     ];
+
+    public function getSlugOptions(): SlugOptions
+    {
+        return SlugOptions::create()
+            ->generateSlugsFrom('name')
+            ->saveSlugsTo('slug');
+    }
 
     public function store()
     {
@@ -19,6 +31,11 @@ class Product extends Model
 
     public function categories()
     {
-        return $this->belongsToMany(Category::class);
+        return $this->belongsToMany(Category::class, 'tb_category_product');
+    }
+
+    public function photos()
+    {
+        return $this->hasMany(ProductImage::class);
     }
 }

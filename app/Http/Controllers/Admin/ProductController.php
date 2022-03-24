@@ -3,12 +3,14 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use \App\Product;
+use App\Product;
 use App\Http\Requests\ProductRequest;
+use App\Traits\UploadTrait;
 
 class ProductController extends Controller
 {
+
+    use UploadTrait;
 
     private $product;
 
@@ -19,26 +21,36 @@ class ProductController extends Controller
 
     public function index()
     {
-        $products = $this->product->paginate(10);
+        $store = auth()->user()->store;
+        $products = $store->products()->paginate(10);
 
         return view('admin.products.index', compact('products'));
     }
 
     public function create()
     {
-        $stores = \App\Store::all(['id', 'name']);
+        $categories = \App\Category::all(['id', 'name']);
 
-        return view('admin.products.create', compact('stores'));
+        return view('admin.products.create', compact('categories'));
     }
 
     public function store(ProductRequest $request)
     {
         $data = $request->all();
+        $categories = $request->get('categories', null);
 
         $store = auth()->user()->store;
-        $store->products()->create($data);
+        $product = $store->products()->create($data);
+        $product->categories()->sync($categories);
+
+        if ($request->hasFile('photos')) {
+            $images = $this->imageUpload($request->file('photos'), 'image');
+
+            $product->photos()->createMany($images);
+        }
 
         flash('Produto criado com sucesso!')->success();
+
         return redirect()->route('admin.products.index');
     }
 
@@ -50,16 +62,27 @@ class ProductController extends Controller
     public function edit($product)
     {
         $product = $this->product->find($product);
+        $categories = \App\Category::all(['id', 'name']);
 
-        return view('admin.products.edit', compact('product'));
+        return view('admin.products.edit', compact('product', 'categories'));
     }
 
     public function update(ProductRequest $request, $product)
     {
         $data = $request->all();
+        $categories = $request->get('categories', null);
 
         $product = $this->product->find($product);
         $product->update($data);
+
+        if (!is_null($categories)) {
+            $product->categories()->sync($categories);
+        }
+
+        if ($request->hasFile('photos')) {
+            $images = $this->imageUpload($request->file('photos'), 'image');
+            $product->photos()->createMany($images);
+        }
 
         flash('Produto atualizado com sucesso!')->success();
 

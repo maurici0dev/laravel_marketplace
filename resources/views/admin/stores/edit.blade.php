@@ -3,7 +3,7 @@
 @section('content')
 <h1 class="title mb-4">Atualizar de Loja</h1>
 
-<form action="{{ route('admin.stores.update', ['store' => $store->id]) }}" method="post">
+<form action="{{ route('admin.stores.update', ['store' => $store->id]) }}" method="post" enctype="multipart/form-data">
 
     @csrf
     @method('put')
@@ -53,8 +53,18 @@
     </div>
 
     <div class="form-group mb-3">
-        <label for="slug">Slug:</label>
-        <input type="text" id="slug" name="slug" value="{{ $store->slug }}" class="form-control">
+        <p>
+            <img src="{{ asset('storage/' . $store->logo) }}" alt="logo">
+        </p>
+
+        <label class="form-label" for="logo">Logo:</label>
+        <input type="file" id="logo" name="logo" class="form-control @error('logo') is-invalid @enderror">
+
+        @error('logo')
+        <div class="invalid-feedback">
+            {{ $message }}
+        </div>
+        @enderror
     </div>
 
     <div>

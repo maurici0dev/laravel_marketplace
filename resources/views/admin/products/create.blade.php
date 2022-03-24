@@ -3,7 +3,7 @@
 @section('content')
 <h1 class="title mb-4">Criação de Produto</h1>
 
-<form action="{{ route('admin.products.store') }}" method="post">
+<form action="{{ route('admin.products.store') }}" method="post" enctype="multipart/form-data">
 
     @csrf
 
@@ -52,8 +52,23 @@
     </div>
 
     <div class="form-group mb-3">
-        <label for="slug">Slug:</label>
-        <input type="text" id="slug" name="slug" class="form-control">
+        <label class="form-label" for="categories">Categoria</label>
+        <select type="text" id="categories" name="categories[]" class="form-control" multiple>
+            @foreach($categories as $category)
+            <option value="{{ $category->id }}">{{ $category->name }}</option>
+            @endforeach
+        </select>
+    </div>
+
+    <div class="form-group mb-3">
+        <label class="form-label" for="photos">Fotos:</label>
+        <input type="file" id="photos" name="photos[]" class="form-control @error('photos') is-invalid @enderror" multiple>
+
+        @error('photos')
+        <div class="invalid-feedback">
+            {{ $message }}
+        </div>
+        @enderror
     </div>
 
     <div>
