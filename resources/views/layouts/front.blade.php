@@ -26,21 +26,14 @@
 
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item @if(request()->is('/')) active @endif">
-                    <a class="nav-link" href="{{route('home')}}">Home <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="{{route('home')}}">Home</a>
                 </li>
-            </ul>
 
-            @auth
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item @if(request()->is('admin/stores*')) active @endif">
-                    <a class="nav-link" href="{{route('admin.stores.index')}}">Lojas <span class="sr-only">(current)</span></a>
+                @foreach($categoriesCompose as $category)
+                <li class="nav-item @if(request()->is('category/' . $category->slug)) active @endif">
+                    <a class="nav-link" href="{{route('single.category', ['slug' => $category->slug])}}">{{ $category->name }}</a>
                 </li>
-                <li class="nav-item @if(request()->is('admin/products*')) active @endif">
-                    <a class="nav-link" href="{{route('admin.products.index')}}">Produtos</a>
-                </li>
-                <li class="nav-item @if(request()->is('admin/categories*')) active @endif">
-                    <a class="nav-link" href="{{route('admin.categories.index')}}">Categorias</a>
-                </li>
+                @endforeach
             </ul>
 
             <div class="my-2 my-lg-0">
@@ -55,7 +48,6 @@
                     </li>
                 </ul>
             </div>
-            @endauth
 
         </div>
     </nav>
@@ -64,5 +56,7 @@
         @include('flash::message')
         @yield('content')
     </div>
+
+    @yield('scripts')
 </body>
 </html>

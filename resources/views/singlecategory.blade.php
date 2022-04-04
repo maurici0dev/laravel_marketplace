@@ -1,15 +1,29 @@
-@extends('layouts.front')
+@extends('layouts/front')
 
 @section('content')
+
 <div class="row">
-    @foreach($products as $product)
+    <div class="col-12">
+        <h2 class="title">{{ $category->name }}</h2>
+        <hr>
+    </div>
+</div>
+
+<div class="row">
+    @forelse($category->products as $product)
+
     <div class="col-md-4">
         <div class="card">
             @if($product->photos()->count())
+
             <img class="card-img-top" src="{{ asset('storage/' . $product->photos()->first()->image) }}" alt="">
+
             @else
+
             <img class="card-img-top" src="{{ asset('assets/img/no-photo.jpg') }}" alt="Foto padrão">
+
             @endif
+
             <div class="card-body">
                 <h2 class="card-title">{{ $product->name }}</h2>
                 <p class="card-text">
@@ -20,26 +34,13 @@
             </div>
         </div>
     </div>
-    @endforeach
-</div>
-<div class="row">
+
+    @empty
+
     <div class="col-12">
-        <h2 class="title">Lojas em destaque:</h2>
-        <hr>
+        <p>Categoria não possui produtos cadastrados...</p>
     </div>
-    @foreach($stores as $store)
-    <div class="col-4">
 
-        @if($store->logo)
-        <img class="img-fluid" src="{{ asset('storage/' . $store->logo) }}" alt="Logo da loja {{ $store->name }}">
-        @else
-        <img class="img-fluid" src="https://via.placeholder.com/340x128.png?text={{ $store->name }}" alt="Loja sem logo">
-        @endif
-
-        <h3 class="title">{{ $store->name }}</h3>
-        <p>{{ $store->description }}</p>
-        <a href="{{ route('single.store', ['slug' => $store->slug]) }}" class="btn btn-success">Ver loja</a>
-    </div>
-    @endforeach
+    @endforelse
 </div>
 @endsection

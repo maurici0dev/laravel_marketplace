@@ -24,8 +24,8 @@ class Category extends Model
             ->saveSlugsTo('slug');
     }
 
-    public function produtcs()
+    public function products()
     {
-        return $this->belongsToMany(Product::class);
+        return $this->belongsToMany(Product::class, 'tb_category_product');
     }
 }

@@ -39,7 +39,7 @@
         <div class="row">
             <div class="col-md-12">
                 <a href="{{ route('cart.cancel') }}" class="btn btn-danger float-left">Cancelar</a>
-                <a href="" class="btn btn-success float-right">Finalizar</a>
+                <a href="{{ route('checkout.index') }}" class="btn btn-success float-right">Finalizar</a>
             </div>
         </div>
         @else

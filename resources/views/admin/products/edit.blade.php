@@ -32,9 +32,7 @@
         <label class="form-label" for="categories">Categoria</label>
         <select type="text" id="categories" name="categories[]" class="form-control" multiple>
             @foreach($categories as $category)
-            <option value="{{ $category->id }}" @if($product->categories->contains($category))
-                selected
-                @endif>{{ $category->name }}</option>
+            <option value="{{ $category->id }}" @if($product->categories->contains($category)) selected @endif>{{ $category->name }}</option>
             @endforeach
         </select>
     </div>

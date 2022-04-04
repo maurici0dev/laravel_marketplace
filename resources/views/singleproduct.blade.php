@@ -31,7 +31,7 @@
                 <input type="hidden" name="product[slug]" value="{{ $product->slug }}">
                 <div class="form-group">
                     <label class="form-label" for="amount">Quantidade:</label>
-                    <input type="number" id="amount" name="product[amount]" min="1" max="99" class="form-control">
+                    <input type="number" id="amount" name="product[amount]" value="1" min="1" max="99" class="form-control">
                 </div>
                 <button type="submit" class="btn btn-danger">Comprar</button>
             </form>
