@@ -48,7 +48,7 @@
 <script>
     const sessionId = "{{ session()->get('pagseguro_session_code') }}";
 
-    const transactionAmount = {{ $total }};
+    const transactionAmount = {{$total}};
     const cardNumber = document.getElementById("card_number");
     const cardBrand = document.getElementById("card_brand");
     const cardBrandImg = document.getElementById("card_brand_img");
@@ -115,7 +115,7 @@
             , data: data
             , dataType: "json"
             , success: function(res) {
-                window.location.href = '{{ route("thanks") }}?order=' + res.data.order;
+                window.location.href = '{{ route("checkout.thanks") }}?order=' + res.data.order;
             }
         });
     }

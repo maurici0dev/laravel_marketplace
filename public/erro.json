@@ -1,0 +1,4 @@
+{
+  "status": false,
+  "message": "SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails (`marketplace`.`tb_user_orders`, CONSTRAINT `tb_user_orders_store_id_foreign` FOREIGN KEY (`store_id`) REFERENCES `tb_stores` (`id`)) (SQL: insert into `tb_user_orders` (`reference`, `pagseguro_code`, `pagseguro_status`, `items`, `store_id`, `user_id`, `updated_at`, `created_at`) values (XPTO, DF5CC8CE-0979-4498-9235-B7F2B941FDB7, 1, a:2:{i:0;a:5:{s:4:\"name\";s:8:\"Notebook\";s:5:\"price\";s:7:\"3999.99\";s:4:\"slug\";s:8:\"notebook\";s:6:\"amount\";s:1:\"1\";s:8:\"store_id\";i:2;}i:1;a:5:{s:4:\"name\";s:20:\"Tenis para caminhada\";s:5:\"price\";s:5:\"68.99\";s:4:\"slug\";s:20:\"tenis-para-caminhada\";s:6:\"amount\";s:1:\"2\";s:8:\"store_id\";i:1;}}, 25, 1, 2022-04-05 10:56:07, 2022-04-05 10:56:07))"
+}

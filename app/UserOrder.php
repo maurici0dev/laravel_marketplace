@@ -22,4 +22,9 @@ class UserOrder extends Model
     {
         return $this->belongsTo(Store::class);
     }
+
+    public function stores()
+    {
+        return $this->belongsToMany(Store::class, 'tb_order_store', 'order_id');
+    }
 }
