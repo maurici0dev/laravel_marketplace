@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Marketplace L6</title>
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 
 </head>
@@ -37,14 +38,23 @@
                     </ul>
                     <div class="d-flex">
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            @php $notifyCount = auth()->user()->unreadNotifications->count() @endphp
+                            <li class="nav-item">
+                                <a href="{{ route('admin.notifications.index') }}" class="nav-link position-relative">
+                                    @if ($notifyCount > 0)
+                                    <span class="badge bg-danger">{{ $notifyCount }}</span>
+                                    @endif
+                                    <i class="fa-solid fa-bell"></i>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <span class="nav-link">{{ auth()->user()->name }}</span>
+                            </li>
                             <li class="nav-item">
                                 <a class="nav-link" aria-current="page" onclick="javascript: document.querySelector('form.logout').submit();" href="#">Sair</a>
                                 <form class="logout" action="{{ route('logout') }}" method="post" style="display: none;">
                                     @csrf
                                 </form>
-                            </li>
-                            <li class="nav-item">
-                                <span class="nav-link">{{ auth()->user()->name }}</span>
                             </li>
                         </ul>
                     </div>

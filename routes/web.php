@@ -35,9 +35,12 @@ Route::group(['middleware' => ['auth']], function () {
         Route::resource('products', 'ProductController');
         Route::resource('categories', 'CategoryController');
 
-        Route::get('orders/my', 'OrdersController@index')->name('orders.index');
+        Route::get('notifications', 'NotificationController@index')->name('notifications.index');
+        Route::get('my-orders', 'OrdersController@index')->name('orders.index');
 
-        Route::post('photos/remove', 'ProductPhotoController@removePhoto')->name('photo.remove');
+        Route::get('notifications/read/{id}', 'NotificationController@read')->name('notifications.read');
+        Route::get('notifications/read-all', 'NotificationController@readall')->name('notifications.read.all');
+        Route::get('photos/remove', 'ProductPhotoController@removePhoto')->name('photo.remove');
     });
 });
 
