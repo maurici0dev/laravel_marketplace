@@ -39,6 +39,12 @@
                     <li class="nav-item">
                         <a href="{{ route('user.orders') }}" class="nav-link @if(request()->is('orders')) active @endif">Meus pedidos</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" onclick="javascript: document.querySelector('form.logout').submit();" href="#">Sair</a>
+                        <form class="logout" action="{{ route('logout') }}" method="post" style="display: none;">
+                            @csrf
+                        </form>
+                    </li>
                     @endauth
 
                     <li class="nav-item">

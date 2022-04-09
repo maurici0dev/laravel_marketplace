@@ -25,7 +25,7 @@ class CreateProductsTable extends Migration
 
             $table->timestamps();
 
-            $table->foreign('store_id')->references('id')->on('tb_stores');
+            $table->foreign('store_id')->references('id')->on('tb_stores')->onDelete('cascade');
         });
     }
 

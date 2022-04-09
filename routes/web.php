@@ -16,18 +16,20 @@ Route::prefix('cart')->name('cart.')->group(function () {
     Route::get('remove/{slug}', 'CartController@remove')->name('remove');
 });
 
-//Checkout
+// Checkout
 Route::prefix('checkout')->name('checkout.')->group(function () {
     Route::get('/', 'CheckoutController@index')->name('index');
     Route::get('thanks', 'CheckoutController@thanks')->name('thanks');
 
     Route::post('proccess', 'CheckoutController@proccess')->name('proccess');
+    Route::post('notification', 'CheckoutController@notification')->name('notification');
 });
 
-// Admin
-Route::group(['middleware' => ['auth']], function () {
+// Orders
+Route::get('orders', 'UserOrderController@index')->name('user.orders')->middleware('auth');
 
-    Route::get('orders', 'UserOrderController@index')->name('user.orders');
+// Admin
+Route::group(['middleware' => ['auth', 'access.control.admin']], function () {
 
     Route::prefix('admin')->namespace('Admin')->name('admin.')->group(function () {
 
