@@ -38,4 +38,9 @@ class Product extends Model
     {
         return $this->hasMany(ProductImage::class);
     }
+
+    public function getThumbAttribute()
+    {
+        return $this->photos->first()->image;
+    }
 }

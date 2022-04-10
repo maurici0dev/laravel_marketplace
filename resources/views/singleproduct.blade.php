@@ -4,7 +4,7 @@
 <div class="row">
     <div class="col-4">
         @if($product->photos()->count())
-        <img class="card-img-top" src="{{ asset('storage/' . $product->photos->first()->image) }}" alt="image">
+        <img class="card-img-top" src="{{ asset('storage/' . $product->thumb) }}" alt="image">
         <div class="row">
             @foreach($product->photos as $photo)
             <div class="col-4 mt-4">
