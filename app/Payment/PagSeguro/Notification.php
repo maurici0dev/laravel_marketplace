@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Payment\PagSeguro;
+namespace App\Payment\PayPal;
 
 class Notification
 {

@@ -1,4 +1,4 @@
-submitBtn.addEventListener("click", function (event) {
+subCreditCard.addEventListener("click", function (event) {
   event.preventDefault();
 
   PagSeguroDirectPayment.createCardToken({
@@ -8,9 +8,15 @@ submitBtn.addEventListener("click", function (event) {
     expirationMonth: expirationMonth.value,
     expirationYear: expirationYear.value,
     success: function (res) {
-      proccessPayment(res.card.token);
+      proccessPayment("CREDITCARD", res.card.token);
     },
   });
+});
+
+subBoleto.addEventListener("click", function (event) {
+  event.preventDefault();
+
+  proccessPayment("BOLETO");
 });
 
 cardNumber.addEventListener("keyup", function () {

@@ -2,7 +2,7 @@
 
 namespace App\Payment\PagSeguro;
 
-class CreditCard
+class ByCreditCard
 {
     private $items;
     private $user;
@@ -19,7 +19,6 @@ class CreditCard
 
     public function doPayment()
     {
-
         $creditCard = new \PagSeguro\Domains\Requests\DirectPayment\CreditCard();
         $creditCard->setReceiverEmail(env('PAGSEGURO_EMAIL'));
         $creditCard->setReference(base64_encode($this->reference));

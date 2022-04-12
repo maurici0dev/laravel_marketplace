@@ -1,13 +1,17 @@
 PagSeguroDirectPayment.setSessionId(sessionId);
 
-function proccessPayment(token) {
+function proccessPayment(paymentType, token = null) {
   let data = {
-    card_token: token,
     hash: PagSeguroDirectPayment.getSenderHash(),
-    installment: document.getElementById("select_installment").value,
-    card_name: document.getElementById("card_name").value,
+    paymentType: paymentType,
     _token: csrfToken,
   };
+
+  if (paymentType === "CREDITCARD") {
+    data.card_token = token;
+    data.card_name = document.getElementById("card_name").value;
+    data.installment = document.getElementById("select_installment").value;
+  }
 
   $.ajax({
     type: "POST",
@@ -15,7 +19,10 @@ function proccessPayment(token) {
     data: data,
     dataType: "json",
     success: function (res) {
-      window.location.href = urlThanks + "?order=" + res.data.order;
+      let redirectUrl = urlThanks + "?order=" + res.data.order;
+      let linkBoleto = redirectUrl + "&b=" + res.data.link_boleto;
+      window.location.href =
+        paymentType === "BOLETO" ? linkBoleto : redirectUrl;
     },
   });
 }

@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Payment\PagSeguro\CreditCard;
+use App\Payment\PagSeguro\ByCreditCard;
+use App\Payment\PagSeguro\ByPaymentSplip;
 use App\Payment\PagSeguro\Notification;
 use App\Store;
 use App\UserOrder;
@@ -32,15 +33,20 @@ class CheckoutController extends Controller
 
     public function proccess(Request $request)
     {
+
         try {
+
             $user = auth()->user();
             $dataPost = $request->all();
             $cartItems = session()->get('cart');
             $stores = array_unique(array_column($cartItems, 'store_id'));
             $reference = Uuid::uuid4();
 
-            $creditCardPayment = new CreditCard($cartItems, $user, $dataPost, $reference);
-            $result = $creditCardPayment->doPayment();
+            $payment = $dataPost['paymentType'] != "BOLETO"
+                ? new ByCreditCard($cartItems, $user, $dataPost, $reference)
+                : new ByPaymentSplip($cartItems, $user, $reference, $dataPost['hash']);
+
+            $result = $payment->doPayment();
 
             $userOrder = [
                 'reference' => $reference,
@@ -57,16 +63,22 @@ class CheckoutController extends Controller
             session()->forget('cart');
             session()->forget('pagseguro_session_code');
 
-            return response()->json([
-                'data' => [
-                    'status' => true,
-                    'message' => 'Pedido criado com sucesso!',
-                    'order' => $reference
-                ]
-            ]);
-        } catch (\Exception $e) {
+            $dataJson = [
+                'status' => true,
+                'message' => 'Pedido realizado com sucesso.',
+                'order' => $reference
+            ];
 
-            $message = env('APP_DEBUG') ? $e->getMessage() : 'Erro ao processa o pedido!';
+            if ($dataPost['paymentType'] === "BOLETO") {
+                $dataJson['link_boleto'] = $result->getPaymentLink();
+            }
+
+            return response()->json([
+                'data' => $dataJson
+            ]);
+        } catch (\Throwable $t) {
+
+            $message = env('APP_DEBUG') ? $t->getMessage() : 'Erro ao processa o pedido!';
 
             return response()->json([
                 'data' => [
